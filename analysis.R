@@ -97,6 +97,7 @@ state_lowest_cases <- updated_states %>%
   filter(date == min(date)) %>%
   filter(cases == min(cases)) %>%
   pull(state)
+#[Ray] You may want to include na.rm = T
 
 # Reflection: What did you learn about the dataset when you calculated
 # the state with the lowest cases (and what does that tell you about
@@ -200,6 +201,7 @@ highest_in_each_state <- counties %>%
 # (hint: you may need to find a match of a particular *string*, and you may
 # just want to use base R syntax rather than a dplyr function)
 highest_in_washington <- highest_in_each_state[str_detect(highest_in_each_state, "Washington")]
+#[Ray] highest_in_wa not highest_in_washington
 
 # What is the county with the *current* (e.g., on the most recent date)
 # lowest number of deaths in each state? Your answer, stored in
@@ -210,6 +212,7 @@ lowest_in_each_state <- counties %>%
   filter(date == max(date)) %>%
   filter(deaths == min(deaths)) %>%
   pull(location)
+#[Ray] You may want to use na.rm = T
 
 # Reflection: Why are there so many observations (counties) in the variable
 # `lowest_in_each_state` (i.e., wouldn't you expect the number to be ~50)?
@@ -225,6 +228,7 @@ prop_no_deaths <- counties %>%
   select(state, county, deaths) %>%
   group_by(state) %>%
   summarize(prop = (sum(deaths==0) / sum(deaths >= 0)))
+#[Ray] You may also want to include those with 0 values' states.
 
 # What proportion of counties in Washington have had zero deaths?
 # `wa_prop_no_deaths`
