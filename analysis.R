@@ -94,8 +94,8 @@ state_highest_ratio <- updated_states %>%
 # (hint, this is a little trickier to calculate than the maximum because
 # of the meaning of the row). `state_lowest_cases`
 state_lowest_cases <- updated_states %>%
-  filter(date == min(date)) %>%
-  filter(cases == min(cases)) %>%
+  filter(date == min(date, na.rm = TRUE)) %>%
+  filter(cases == min(cases, na.rm = TRUE)) %>%
   pull(state)
 #[Ray] You may want to include na.rm = T
 
@@ -200,7 +200,7 @@ highest_in_each_state <- counties %>%
 # in Washington? `highest_in_wa`
 # (hint: you may need to find a match of a particular *string*, and you may
 # just want to use base R syntax rather than a dplyr function)
-highest_in_washington <- highest_in_each_state[str_detect(highest_in_each_state, "Washington")]
+highest_in_wa <- highest_in_each_state[str_detect(highest_in_each_state, "Washington")]
 #[Ray] highest_in_wa not highest_in_washington
 
 # What is the county with the *current* (e.g., on the most recent date)
@@ -209,8 +209,8 @@ highest_in_washington <- highest_in_each_state[str_detect(highest_in_each_state,
 # `location` names (the column with COUNTY, STATE).
 lowest_in_each_state <- counties %>% 
   group_by(state) %>%
-  filter(date == max(date)) %>%
-  filter(deaths == min(deaths)) %>%
+  filter(date == max(date, na.rm = TRUE)) %>%
+  filter(deaths == min(deaths, na.rm = TRUE)) %>%
   pull(location)
 #[Ray] You may want to use na.rm = T
 
@@ -229,6 +229,7 @@ prop_no_deaths <- counties %>%
   group_by(state) %>%
   summarize(prop = (sum(deaths==0) / sum(deaths >= 0)))
 #[Ray] You may also want to include those with 0 values' states.
+#I cannot figure out what that is asking :(
 
 # What proportion of counties in Washington have had zero deaths?
 # `wa_prop_no_deaths`
